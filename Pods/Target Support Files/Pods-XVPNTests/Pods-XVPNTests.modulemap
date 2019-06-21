@@ -1,0 +1,6 @@
+framework module Pods_XVPNTests {
+  umbrella header "Pods-XVPNTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
