@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		056262C0D082277771A3301B /* Pods_XVPNUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5C31CA5695912F95FAB881 /* Pods_XVPNUITests.framework */; };
 		078D1ADFAF0DC4BBBD4011AA /* Pods_PacketTunnel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0436F9DA6D3740A2C3A3A6CB /* Pods_PacketTunnel.framework */; };
+		A24F09A02307A51E00BD078B /* Proveder+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24F099F2307A51E00BD078B /* Proveder+Config.swift */; };
 		AA90F01822BC6FFD007B34D9 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */; };
 		AA90F01D22BC6FFD007B34D9 /* PacketTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AA90F01522BC6FFD007B34D9 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AABE82F722BA06F1008210A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABE82F622BA06F1008210A1 /* AppDelegate.swift */; };
@@ -70,6 +71,7 @@
 		6457D341FCF0890F2E722E7A /* Pods-XVPN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XVPN.debug.xcconfig"; path = "Target Support Files/Pods-XVPN/Pods-XVPN.debug.xcconfig"; sourceTree = "<group>"; };
 		69D237B6C9CD724A0D2D4D14 /* Pods_XVPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XVPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EB3D621F6398444FEB5DBCF /* Pods-PacketTunnel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PacketTunnel.debug.xcconfig"; path = "Target Support Files/Pods-PacketTunnel/Pods-PacketTunnel.debug.xcconfig"; sourceTree = "<group>"; };
+		A24F099F2307A51E00BD078B /* Proveder+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Proveder+Config.swift"; sourceTree = "<group>"; };
 		AA90F01522BC6FFD007B34D9 /* PacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		AA90F01922BC6FFD007B34D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -146,7 +148,6 @@
 				B9D3C9DA460613271A9364FB /* Pods-XVPNUITests.debug.xcconfig */,
 				2A5B66D8DDB2FA54ED4DBD6B /* Pods-XVPNUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -154,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */,
+				A24F099F2307A51E00BD078B /* Proveder+Config.swift */,
 				AA90F01922BC6FFD007B34D9 /* Info.plist */,
 				AA90F01A22BC6FFD007B34D9 /* PacketTunnel.entitlements */,
 			);
@@ -521,6 +523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A24F09A02307A51E00BD078B /* Proveder+Config.swift in Sources */,
 				AA90F01822BC6FFD007B34D9 /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

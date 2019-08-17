@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ix-1v-0bl">
-                                <rect key="frame" x="164.5" y="250" width="85" height="40"/>
+                                <rect key="frame" x="164.5" y="274" width="85" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Connect"/>
                                 <connections>
@@ -27,7 +27,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LMD-Wk-cDt">
-                                <rect key="frame" x="160" y="352" width="94" height="40"/>
+                                <rect key="frame" x="160" y="376" width="94" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="强制关闭">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -36,12 +36,36 @@
                                     <action selector="disconnectAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jdL-yh-GrU"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="服务器 IP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QXJ-d9-Ucj">
+                                <rect key="frame" x="20" y="144" width="374" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="02i-Qp-oSW"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="端口" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l0b-tG-Thu">
+                                <rect key="frame" x="20" y="209" width="374" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="4uf-xb-Q1I"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QXJ-d9-Ucj" secondAttribute="trailing" constant="20" id="4df-wg-mkr"/>
                             <constraint firstItem="5ix-1v-0bl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9GU-7c-pxZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="QXJ-d9-Ucj" secondAttribute="top" constant="-100" id="9U4-QM-Wsb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="l0b-tG-Thu" secondAttribute="trailing" constant="20" id="JS8-Mq-XP2"/>
+                            <constraint firstItem="QXJ-d9-Ucj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="M7A-mB-X69"/>
+                            <constraint firstItem="l0b-tG-Thu" firstAttribute="top" secondItem="QXJ-d9-Ucj" secondAttribute="bottom" constant="20" id="QrP-B4-2oF"/>
+                            <constraint firstItem="l0b-tG-Thu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Yjq-jN-Bvk"/>
                             <constraint firstItem="LMD-Wk-cDt" firstAttribute="top" secondItem="5ix-1v-0bl" secondAttribute="bottom" constant="62" id="Z6f-8a-HZ1"/>
-                            <constraint firstItem="5ix-1v-0bl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="206" id="eKY-gS-Ce8"/>
+                            <constraint firstItem="5ix-1v-0bl" firstAttribute="top" secondItem="l0b-tG-Thu" secondAttribute="bottom" constant="20" id="gGj-Tf-mgN"/>
                             <constraint firstItem="LMD-Wk-cDt" firstAttribute="centerX" secondItem="5ix-1v-0bl" secondAttribute="centerX" id="wA4-kD-eBp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -52,7 +76,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-314" y="-7"/>
+            <point key="canvasLocation" x="-806" y="4"/>
         </scene>
     </scenes>
 </document>
