@@ -11,6 +11,9 @@ import NetworkExtension
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var serverAddressLabel: UITextField!
+    @IBOutlet weak var portLabel: UITextField!
+    
     @IBOutlet weak var connectButton: UIButton!
     
     lazy var vpnManager: NETunnelProviderManager = {
@@ -29,6 +32,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if let port = UserDefaults.standard.value(forKey: "Port") as? String {
+            portLabel.text = port
+        }
+        
+        if let serverAddress = UserDefaults.standard.value(forKey: "ServerAddress") as? String {
+            serverAddressLabel.text = serverAddress
+        }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name.NEVPNStatusDidChange, object: vpnManager.connection, queue: OperationQueue.main, using: { [unowned self] (notification) -> Void in
             self.VPNStatusDidChange(notification)
         })
@@ -37,14 +49,18 @@ class ViewController: UIViewController {
     }
 
     @IBAction func connectAction(_ sender: UIButton) {
+        dataPersistence()
+        
+        let option: [String: NSObject] = [
+            "server": (self.serverAddressLabel?.text ?? "") as NSString,
+            "port": (self.portLabel.text ?? "") as NSString
+        ]
         self.vpnManager.loadFromPreferences { (error:Error?) in
-            if let error = error {
-                print(error)
-            }
+            guard error == nil else { return }
             
             if sender.title(for: .normal) == "Connect" {
                 do {
-                    try self.vpnManager.connection.startVPNTunnel()
+                    try self.vpnManager.connection.startVPNTunnel(options: option)
                 } catch let err {
                     print(err)
                 }
@@ -57,6 +73,19 @@ class ViewController: UIViewController {
     @IBAction func disconnectAction(_ sender: Any) {
         self.connectButton.setTitle("Connect", for: .normal)
         self.vpnManager.connection.stopVPNTunnel()
+    }
+}
+
+extension ViewController {
+    
+    func dataPersistence() {
+        guard
+            let serverAddress = self.serverAddressLabel.text,
+            let port = self.portLabel.text
+        else { return }
+        
+        UserDefaults.standard.set(serverAddress, forKey: "ServerAddress")
+        UserDefaults.standard.set(port, forKey: "Port")
     }
 }
 
@@ -83,15 +112,12 @@ extension ViewController {
                     return
                 }
                 
-//                let providerProtocol = NETunnelProviderProtocol()
-//                providerProtocol.providerBundleIdentifier = self.tunnelBundleId
-//                providerProtocol.serverAddress = "西厢 VPN"
-//                providerProtocol.providerConfiguration = [
-//                    "1": "1"
-//                ]
-//
-//                self.vpnManager.protocolConfiguration = providerProtocol
-//                self.vpnManager.localizedDescription = "西厢 VPN"
+                let providerProtocol = NETunnelProviderProtocol()
+                providerProtocol.providerBundleIdentifier = self.tunnelBundleId
+                providerProtocol.serverAddress = self.serverAddressLabel.text
+
+                self.vpnManager.protocolConfiguration = providerProtocol
+                self.vpnManager.localizedDescription = "网络隧道"
                 self.vpnManager.isEnabled = true
                 
                 

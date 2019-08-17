@@ -61,8 +61,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     let mtu = 1500
     
-    let endpoint = NWHostEndpoint(hostname:"35.236.153.210", port: "8080")
-    
+//    let endpoint = NWHostEndpoint(hostname:"35.236.153.210", port: "8080")
+    var endpoint: NWHostEndpoint!
     var tcpConn: NWTCPConnection? = nil
     
     var startCompletionHandler: ((Error?) -> Void)? = nil
@@ -73,10 +73,15 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
     override func startTunnel(options: [String : NSObject]?,
                               completionHandler: @escaping (Error?) -> Void) {
+        guard
+            let server = options?["ServerAddress"] as? String,
+            let port = options?["port"] as? String
+            else { return}
         tcpThread.start()
         tunThread.start()
         startCompletionHandler = completionHandler
         
+        endpoint = NWHostEndpoint(hostname:server, port: port)
         // 连接服务器
         tcpConn = self.createTCPConnection(to: endpoint,
                                            enableTLS: false,

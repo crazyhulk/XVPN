@@ -72,6 +72,8 @@
                     </view>
                     <connections>
                         <outlet property="connectButton" destination="5ix-1v-0bl" id="AnY-Zp-Va9"/>
+                        <outlet property="portLabel" destination="l0b-tG-Thu" id="euC-So-TCG"/>
+                        <outlet property="serverAddressLabel" destination="QXJ-d9-Ucj" id="gAF-tv-6OY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
