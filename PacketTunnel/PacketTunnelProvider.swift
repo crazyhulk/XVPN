@@ -54,8 +54,8 @@ extension UInt32 {
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
     
-    lazy var tunThread = Thread.init(target: self, selector: #selector(threadKeepLive), object: nil)
-    lazy var tcpThread = Thread.init(target: self, selector: #selector(threadKeepLive), object: nil)
+//    lazy var tunThread = Thread.init(target: self, selector: #selector(threadKeepLive), object: nil)
+//    lazy var tcpThread = Thread.init(target: self, selector: #selector(threadKeepLive), object: nil)
     
     var writeProcotol: [NSNumber]? = nil
     
@@ -77,8 +77,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
             let server = options?["ServerAddress"] as? String,
             let port = options?["port"] as? String
             else { return}
-        tcpThread.start()
-        tunThread.start()
+//        tcpThread.start()
+//        tunThread.start()
         startCompletionHandler = completionHandler
         
         endpoint = NWHostEndpoint(hostname:server, port: port)
@@ -91,7 +91,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         configIP { (hostIP, clientIP) in
             self.setupTunnelNetworkSettings(hostIP: hostIP, clientIP: clientIP)
         }
-//        setupTunnelNetworkSettings(hostIP: "10.0.0.1", clientIP: "10.0.0.4")
+
         // 监听 tcp 连接状态
         tcpConn!.addObserver(self, forKeyPath: "state", options: .initial, context: nil)
     }
@@ -204,8 +204,6 @@ extension PacketTunnelProvider {
                 return
             }
             
-//            self.perform(#selector(self.tcpToTun), on: self.tcpThread, with: nil, waitUntilDone: false, modes: [RunLoop.Mode.default.rawValue])
-//            self.perform(#selector(self.tunToTCP), on: self.tunThread, with: nil, waitUntilDone: false)
             self.tcpToTun()
             self.tunToTCP()
             // 通知系统隧道创建成功
@@ -217,7 +215,6 @@ extension PacketTunnelProvider {
         if #available(iOSApplicationExtension 10.0, *) {
             self.packetFlow.readPacketObjects { (packets) in
                 for packet in packets {
-                    NSLog("send:\(packet.data as NSData)")
                     let packPacket = UInt32(packet.data.count).data + packet.data
                     self.tcpConn?.write(packPacket, completionHandler: { (err) in
                         NSLog("write error: \(String(describing: err))")
@@ -232,18 +229,11 @@ extension PacketTunnelProvider {
         self.packetFlow.readPackets() { (packets: [Data], protocols: [NSNumber]) in
             self.writeProcotol = protocols
             for data in packets {
-                print(data)
-                NSLog("send:\(data as NSData)")
                 let packet = UInt32(data.count).data + data
                 self.tcpConn!.write(packet) { (error: Error?) in
                     guard error == nil else {
                         NSLog("tunToTCP error: \(String(describing: error))")
-//                        self.tcpConn?.cancel()
-                        // 连接服务器
-                        self.tcpConn = self.createTCPConnection(to: self.endpoint,
-                                                           enableTLS: false,
-                                                           tlsParameters: nil,
-                                                           delegate: nil)
+                        self.tcpConn?.cancel()
                         return
                     }
                 }
@@ -254,24 +244,6 @@ extension PacketTunnelProvider {
     }
     
     @objc func tcpToTun() {
-//        self.tcpConn?.readMinimumLength(4, maximumLength: mtu) { (data: Data?, error: Error?) in
-//            NSLog("tcpToTun, len: %d", data?.count ?? -1)
-//
-//            guard error == nil, let packet = data else {
-//                NSLog("tcpToRun read error: \(String(describing: error))")
-//
-//                self.stopVpn()
-//                self.tcpConn?.cancel()
-//                return
-//            }
-//
-//            let protocols = [NSNumber.init(value: AF_INET)]
-//            self.packetFlow.writePackets([packet[4..<packet.count]], withProtocols: protocols)
-//
-//            self.tcpToTun()
-//        }
-//        return;
-
         self.tcpConn?.readLength(4, completionHandler: { (headerData, headerErr) in
             guard let count = headerData?.uint32, headerErr == nil else {
                 return
