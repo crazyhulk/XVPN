@@ -16,11 +16,23 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var connectButton: UIButton!
     
+    lazy var proxyManager: NEAppProxyProviderManager = {
+        let manager = NEAppProxyProviderManager()
+        let providerProtocol = NETunnelProviderProtocol()
+        providerProtocol.providerBundleIdentifier = self.tunnelBundleId
+        providerProtocol.serverAddress = "35.236.153.210"
+        
+        manager.protocolConfiguration = providerProtocol
+        manager.localizedDescription = "Proxy"
+        return manager
+    }()
+    
     lazy var vpnManager: NETunnelProviderManager = {
         let manager = NETunnelProviderManager()
         let providerProtocol = NETunnelProviderProtocol()
         providerProtocol.providerBundleIdentifier = self.tunnelBundleId
         providerProtocol.serverAddress = "35.236.153.210"
+        
         
         manager.protocolConfiguration = providerProtocol
         manager.localizedDescription = "VPN"
@@ -49,6 +61,18 @@ class ViewController: UIViewController {
     }
 
     @IBAction func connectAction(_ sender: UIButton) {
+        NEAppProxyProviderManager.loadAllFromPreferences { (managers, err) in
+            guard err == nil else { return }
+            if let m = managers?.first {
+                self.proxyManager = m
+            }
+        }
+        do {
+            try self.proxyManager.connection.startVPNTunnel()
+        } catch let err {
+            print(err)
+        }
+        return
         dataPersistence()
         
         let option: [String: NSObject] = [
