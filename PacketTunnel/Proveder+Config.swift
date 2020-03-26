@@ -37,4 +37,27 @@ extension PacketTunnelProvider {
             })
         })
     }
+    
+    func udpConfigIP(callBack: @escaping (String, String) -> Void) {
+        self.udpConn?.setReadHandler({ (data, err) in
+            guard let pdata = data?[0] else { return }
+            let flag = pdata[0...3]
+            guard flag.uint32 == ConfigType.IP.rawValue else { return }
+            
+            NSLog("ips -- \(pdata as NSData)")
+            let hostData = pdata[4...7]
+            let clientData = pdata[8...11]
+            
+            let hostIP = hostData.uint32.ipv4()
+            let clientIP = clientData.uint32.ipv4()
+            NSLog("host IP:\(hostIP), client IP:\(clientIP)")
+            
+            callBack(hostIP, clientIP)
+         }, maxDatagrams: 1)
+        
+        self.udpConn.writeDatagram(UInt32(123).data) { (error) in
+            print(error)
+        }
+ 
+    }
 }

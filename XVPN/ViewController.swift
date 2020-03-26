@@ -61,18 +61,22 @@ class ViewController: UIViewController {
     }
 
     @IBAction func connectAction(_ sender: UIButton) {
-        NEAppProxyProviderManager.loadAllFromPreferences { (managers, err) in
-            guard err == nil else { return }
-            if let m = managers?.first {
-                self.proxyManager = m
-            }
-        }
-        do {
-            try self.proxyManager.connection.startVPNTunnel()
-        } catch let err {
-            print(err)
-        }
-        return
+        var data = "hello".data(using: .utf8)!
+        try? (self.vpnManager.connection as? NETunnelProviderSession)?.sendProviderMessage(data, responseHandler: { (data) in
+            print(data)
+        })
+//        NEAppProxyProviderManager.loadAllFromPreferences { (managers, err) in
+//            guard err == nil else { return }
+//            if let m = managers?.first {
+//                self.proxyManager = m
+//            }
+//        }
+//        do {
+//            try self.proxyManager.connection.startVPNTunnel()
+//        } catch let err {
+//            print(err)
+//        }
+//        return
         dataPersistence()
         
         let option: [String: NSObject] = [

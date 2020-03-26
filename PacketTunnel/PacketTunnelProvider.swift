@@ -50,6 +50,11 @@ extension UInt32 {
 
 }
 
+enum Method: String {
+    case Tcp = "tcp"
+    case Udp = "udp"
+}
+
 
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
@@ -63,6 +68,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
 //    let endpoint = NWHostEndpoint(hostname:"35.236.153.210", port: "8080")
     var endpoint: NWHostEndpoint!
+    var udpConn: NWUDPSession!
     var tcpConn: NWTCPConnection? = nil
     
     var startCompletionHandler: ((Error?) -> Void)? = nil
@@ -76,24 +82,37 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         guard
             let server = options?["ServerAddress"] as? String,
             let port = options?["port"] as? String
-            else { return}
+//            var method = options?["method"] as? String
+            else { return }
+        var method = "udp"
 //        tcpThread.start()
 //        tunThread.start()
         startCompletionHandler = completionHandler
         
         endpoint = NWHostEndpoint(hostname:server, port: port)
         // 连接服务器
-        tcpConn = self.createTCPConnection(to: endpoint,
-                                           enableTLS: false,
-                                           tlsParameters: nil,
-                                           delegate: nil)
-        
-        configIP { (hostIP, clientIP) in
-            self.setupTunnelNetworkSettings(hostIP: hostIP, clientIP: clientIP)
+        switch method {
+        case Method.Tcp.rawValue:
+            tcpConn = self.createTCPConnection(to: endpoint,
+                                               enableTLS: false,
+                                               tlsParameters: nil,
+                                               delegate: nil)
+            configIP { (hostIP, clientIP) in
+                self.setupTunnelNetworkSettings(hostIP: hostIP, clientIP: clientIP)
+            }
+        case Method.Udp.rawValue:
+            endpoint = NWHostEndpoint(hostname:server, port: "8081")
+            udpConn = self.createUDPSession(to: endpoint, from: nil)
+            udpConfigIP { (hip, cip) in
+                self.setupTunnelNetworkSettings(hostIP: hip, clientIP: cip, method: .Udp)
+            }
+        default:
+            ()
         }
 
+
         // 监听 tcp 连接状态
-        tcpConn!.addObserver(self, forKeyPath: "state", options: .initial, context: nil)
+//        tcpConn!.addObserver(self, forKeyPath: "state", options: .initial, context: nil)
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
@@ -134,9 +153,9 @@ extension PacketTunnelProvider {
         // 只关心 state 字段变化
         guard keyPath == "state" else { return }
         
-        print("conn state: \(tcpConn!.state)")
+        print("conn state: \(tcpConn?.state)")
         
-        switch tcpConn!.state {
+        switch tcpConn?.state ?? .disconnected {
         case .connected:
             print("connected")
 //            handshake()
@@ -183,7 +202,7 @@ extension PacketTunnelProvider {
     }
     
     
-    func setupTunnelNetworkSettings(hostIP: String, clientIP: String) {
+    func setupTunnelNetworkSettings(hostIP: String, clientIP: String, method: Method = .Tcp) {
         let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: hostIP)
 
         // 设置隧道本地 ip
@@ -203,9 +222,15 @@ extension PacketTunnelProvider {
                 self.notifyError(error)
                 return
             }
+            switch method {
+            case .Tcp:
+                self.tcpToTun()
+                self.tunToTCP()
+            case .Udp:
+                self.udpToTun()
+                self.tunToUDP()
+            }
             
-            self.tcpToTun()
-            self.tunToTCP()
             // 通知系统隧道创建成功
             self.notifyError(nil)
         }
@@ -225,21 +250,21 @@ extension PacketTunnelProvider {
             return
         } else {
             // Fallback on earlier versions
-        }
-        self.packetFlow.readPackets() { (packets: [Data], protocols: [NSNumber]) in
-            self.writeProcotol = protocols
-            for data in packets {
-                let packet = UInt32(data.count).data + data
-                self.tcpConn!.write(packet) { (error: Error?) in
-                    guard error == nil else {
-                        NSLog("tunToTCP error: \(String(describing: error))")
-                        self.tcpConn?.cancel()
-                        return
+            self.packetFlow.readPackets() { (packets: [Data], protocols: [NSNumber]) in
+                self.writeProcotol = protocols
+                for data in packets {
+                    let packet = UInt32(data.count).data + data
+                    self.tcpConn!.write(packet) { (error: Error?) in
+                        guard error == nil else {
+                            NSLog("tunToTCP error: \(String(describing: error))")
+                            self.tcpConn?.cancel()
+                            return
+                        }
                     }
                 }
+                
+                self.tunToTCP()
             }
-            
-            self.tunToTCP()
         }
     }
     

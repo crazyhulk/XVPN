@@ -10,6 +10,7 @@
 		056262C0D082277771A3301B /* Pods_XVPNUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5C31CA5695912F95FAB881 /* Pods_XVPNUITests.framework */; };
 		078D1ADFAF0DC4BBBD4011AA /* Pods_PacketTunnel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0436F9DA6D3740A2C3A3A6CB /* Pods_PacketTunnel.framework */; };
 		A24F09A02307A51E00BD078B /* Proveder+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24F099F2307A51E00BD078B /* Proveder+Config.swift */; };
+		AA0CA29B242B7ABA00D14612 /* PacketTunnelProvider+UDP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0CA29A242B7ABA00D14612 /* PacketTunnelProvider+UDP.swift */; };
 		AA35F07A2311084A0031EA2F /* AppProxyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA35F0792311084A0031EA2F /* AppProxyProvider.swift */; };
 		AA90F01822BC6FFD007B34D9 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */; };
 		AA90F01D22BC6FFD007B34D9 /* PacketTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AA90F01522BC6FFD007B34D9 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -73,6 +74,7 @@
 		69D237B6C9CD724A0D2D4D14 /* Pods_XVPN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XVPN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EB3D621F6398444FEB5DBCF /* Pods-PacketTunnel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PacketTunnel.debug.xcconfig"; path = "Target Support Files/Pods-PacketTunnel/Pods-PacketTunnel.debug.xcconfig"; sourceTree = "<group>"; };
 		A24F099F2307A51E00BD078B /* Proveder+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Proveder+Config.swift"; sourceTree = "<group>"; };
+		AA0CA29A242B7ABA00D14612 /* PacketTunnelProvider+UDP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PacketTunnelProvider+UDP.swift"; sourceTree = "<group>"; };
 		AA35F0792311084A0031EA2F /* AppProxyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProxyProvider.swift; sourceTree = "<group>"; };
 		AA90F01522BC6FFD007B34D9 /* PacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				AA90F01722BC6FFD007B34D9 /* PacketTunnelProvider.swift */,
+				AA0CA29A242B7ABA00D14612 /* PacketTunnelProvider+UDP.swift */,
 				AA35F0792311084A0031EA2F /* AppProxyProvider.swift */,
 				A24F099F2307A51E00BD078B /* Proveder+Config.swift */,
 				AA90F01922BC6FFD007B34D9 /* Info.plist */,
@@ -528,6 +531,7 @@
 			files = (
 				A24F09A02307A51E00BD078B /* Proveder+Config.swift in Sources */,
 				AA35F07A2311084A0031EA2F /* AppProxyProvider.swift in Sources */,
+				AA0CA29B242B7ABA00D14612 /* PacketTunnelProvider+UDP.swift in Sources */,
 				AA90F01822BC6FFD007B34D9 /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
