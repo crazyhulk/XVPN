@@ -55,7 +55,7 @@ extension PacketTunnelProvider {
             callBack(hostIP, clientIP)
          }, maxDatagrams: 1)
         
-        self.udpConn.writeDatagram(UInt32(123).data) { (error) in
+        self.udpConn.writeDatagram(ConfigType.IP.rawValue.data) { (error) in
             print(error)
         }
  

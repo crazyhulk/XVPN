@@ -64,7 +64,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     var writeProcotol: [NSNumber]? = nil
     
-    let mtu = 1500
+    let mtu = 1200
     
 //    let endpoint = NWHostEndpoint(hostname:"35.236.153.210", port: "8080")
     var endpoint: NWHostEndpoint!
@@ -209,7 +209,7 @@ extension PacketTunnelProvider {
         let ipSettings = NEIPv4Settings(addresses: [clientIP], subnetMasks: ["255.255.255.0"])
         // 设置所有流量走隧道
         ipSettings.includedRoutes = [ NEIPv4Route.default() ]
-        ipSettings.excludedRoutes = []
+        ipSettings.excludedRoutes = [NEIPv4Route.init(destinationAddress: hostIP, subnetMask: "255.255.255.255")]
         
         settings.ipv4Settings = ipSettings
 //        settings.tunnelOverheadBytes = NSNumber(1500)
