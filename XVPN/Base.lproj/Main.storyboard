@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ix-1v-0bl">
-                                <rect key="frame" x="164.5" y="274" width="85" height="40"/>
+                                <rect key="frame" x="164.5" y="354" width="85" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Connect"/>
                                 <connections>
@@ -27,7 +25,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LMD-Wk-cDt">
-                                <rect key="frame" x="160" y="376" width="94" height="40"/>
+                                <rect key="frame" x="160" y="456" width="94" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="强制关闭">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -36,13 +34,12 @@
                                     <action selector="disconnectAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jdL-yh-GrU"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="服务器 IP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QXJ-d9-Ucj">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="服务器 IP" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QXJ-d9-Ucj">
                                 <rect key="frame" x="20" y="144" width="374" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="02i-Qp-oSW"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="端口" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l0b-tG-Thu">
@@ -50,10 +47,17 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="4uf-xb-Q1I"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Jom-Sc-0la">
+                                <rect key="frame" x="20" y="289" width="93" height="32"/>
+                                <segments>
+                                    <segment title="TCP"/>
+                                    <segment title="UDP"/>
+                                </segments>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -65,7 +69,9 @@
                             <constraint firstItem="l0b-tG-Thu" firstAttribute="top" secondItem="QXJ-d9-Ucj" secondAttribute="bottom" constant="20" id="QrP-B4-2oF"/>
                             <constraint firstItem="l0b-tG-Thu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Yjq-jN-Bvk"/>
                             <constraint firstItem="LMD-Wk-cDt" firstAttribute="top" secondItem="5ix-1v-0bl" secondAttribute="bottom" constant="62" id="Z6f-8a-HZ1"/>
-                            <constraint firstItem="5ix-1v-0bl" firstAttribute="top" secondItem="l0b-tG-Thu" secondAttribute="bottom" constant="20" id="gGj-Tf-mgN"/>
+                            <constraint firstItem="5ix-1v-0bl" firstAttribute="top" secondItem="l0b-tG-Thu" secondAttribute="bottom" constant="100" id="gGj-Tf-mgN"/>
+                            <constraint firstItem="Jom-Sc-0la" firstAttribute="top" secondItem="l0b-tG-Thu" secondAttribute="bottom" constant="35" id="pIg-zV-ZK6"/>
+                            <constraint firstItem="Jom-Sc-0la" firstAttribute="leading" secondItem="l0b-tG-Thu" secondAttribute="leading" id="rpA-dY-pg9"/>
                             <constraint firstItem="LMD-Wk-cDt" firstAttribute="centerX" secondItem="5ix-1v-0bl" secondAttribute="centerX" id="wA4-kD-eBp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -74,11 +80,12 @@
                         <outlet property="connectButton" destination="5ix-1v-0bl" id="AnY-Zp-Va9"/>
                         <outlet property="portLabel" destination="l0b-tG-Thu" id="euC-So-TCG"/>
                         <outlet property="serverAddressLabel" destination="QXJ-d9-Ucj" id="gAF-tv-6OY"/>
+                        <outlet property="tcpSegment" destination="Jom-Sc-0la" id="y8S-xj-ynV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-806" y="4"/>
+            <point key="canvasLocation" x="-1530" y="-5"/>
         </scene>
     </scenes>
 </document>

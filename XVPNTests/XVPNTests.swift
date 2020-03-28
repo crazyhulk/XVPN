@@ -22,6 +22,8 @@ class XVPNTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let protocols:[NSNumber] = [NSNumber].init(repeating: NSNumber.init(value: AF_INET), count: 3)
+        assert(protocols.count == 3)
     }
 
     func testPerformanceExample() {
@@ -31,4 +33,11 @@ class XVPNTests: XCTestCase {
         }
     }
 
+    func testSomething() {
+        let protocols:[NSNumber] = [NSNumber].init(repeating: NSNumber.init(value: AF_INET), count: 3)
+        assert(protocols.count == 3)
+        assert(protocols[2].int32Value == AF_INET)
+        assert(protocols.count == 3)
+        
+    }
 }

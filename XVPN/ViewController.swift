@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var portLabel: UITextField!
     
     @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet weak var tcpSegment: UISegmentedControl!
     
     lazy var proxyManager: NEAppProxyProviderManager = {
         let manager = NEAppProxyProviderManager()
@@ -61,6 +62,9 @@ class ViewController: UIViewController {
     }
 
     @IBAction func connectAction(_ sender: UIButton) {
+        let dic = [
+            "ff": "fff"
+        ]
         var data = "hello".data(using: .utf8)!
         try? (self.vpnManager.connection as? NETunnelProviderSession)?.sendProviderMessage(data, responseHandler: { (data) in
             print(data)
@@ -79,9 +83,12 @@ class ViewController: UIViewController {
 //        return
         dataPersistence()
         
+        let method = tcpSegment.selectedSegmentIndex == 0 ? "tcp" : "udp"
+        
         let option: [String: NSObject] = [
             "server": (self.serverAddressLabel?.text ?? "") as NSString,
-            "port": (self.portLabel.text ?? "") as NSString
+            "port": (self.portLabel.text ?? "") as NSString,
+            "method": method as NSString
         ]
         self.vpnManager.loadFromPreferences { (error:Error?) in
             guard error == nil else { return }
@@ -180,5 +187,7 @@ extension ViewController {
         }
     }
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }

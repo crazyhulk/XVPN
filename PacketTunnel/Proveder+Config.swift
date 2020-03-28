@@ -15,7 +15,7 @@ enum ConfigType: UInt32 {
 extension PacketTunnelProvider {
     
     func configIP(callBack: @escaping (String, String) -> Void) {
-        self.tcpConn?.readLength(4, completionHandler: { (headerData, headerErr) in
+        self.tcpConn.readLength(4, completionHandler: { (headerData, headerErr) in
             guard let count = headerData?.uint32, headerErr == nil else {
                 return
             }

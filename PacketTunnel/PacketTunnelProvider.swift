@@ -64,12 +64,12 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     var writeProcotol: [NSNumber]? = nil
     
-    let mtu = 1200
+    let mtu = 1500
     
 //    let endpoint = NWHostEndpoint(hostname:"35.236.153.210", port: "8080")
     var endpoint: NWHostEndpoint!
     var udpConn: NWUDPSession!
-    var tcpConn: NWTCPConnection? = nil
+    var tcpConn: NWTCPConnection!
     
     var startCompletionHandler: ((Error?) -> Void)? = nil
     
@@ -81,10 +81,10 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                               completionHandler: @escaping (Error?) -> Void) {
         guard
             let server = options?["ServerAddress"] as? String,
-            let port = options?["port"] as? String
-//            var method = options?["method"] as? String
+            let port = options?["port"] as? String,
+            let method = options?["method"] as? String
             else { return }
-        var method = "udp"
+
 //        tcpThread.start()
 //        tunThread.start()
         startCompletionHandler = completionHandler
@@ -175,7 +175,7 @@ extension PacketTunnelProvider {
     
     func stopVpn() {
         print("stoping vpn")
-        
+
         let vpnManager = NETunnelProviderManager()
     
         vpnManager.connection.stopVPNTunnel()
@@ -213,7 +213,20 @@ extension PacketTunnelProvider {
         
         settings.ipv4Settings = ipSettings
 //        settings.tunnelOverheadBytes = NSNumber(1500)
-        settings.mtu = NSNumber.init(value: mtu)
+        
+        /*
+        在下层数据链路层最大传输单元是1500字节的情况下，要想IP层不分包，那么UDP数据包的最大大小应该是1500字节 – IP头(20字节) – UDP头(8字节) = 1472字节。不过鉴于Internet上的标准MTU值为576字节，所以建议在进行Internet的UDP编程时，最好将UDP的数据长度控制在 (576-8-20)548字节以内。
+        */
+        func getMTU() -> Int {
+            switch method {
+            case .Tcp:
+                return mtu
+            case .Udp:
+                return 548
+            }
+        }
+        
+        settings.mtu = NSNumber.init(value: getMTU())
 
         settings.dnsSettings = NEDNSSettings(servers: ["8.8.8.8"])
         
@@ -241,7 +254,7 @@ extension PacketTunnelProvider {
             self.packetFlow.readPacketObjects { (packets) in
                 for packet in packets {
                     let packPacket = UInt32(packet.data.count).data + packet.data
-                    self.tcpConn?.write(packPacket, completionHandler: { (err) in
+                    self.tcpConn.write(packPacket, completionHandler: { (err) in
                         NSLog("write error: \(String(describing: err))")
                     })
                 }
@@ -269,12 +282,12 @@ extension PacketTunnelProvider {
     }
     
     @objc func tcpToTun() {
-        self.tcpConn?.readLength(4, completionHandler: { (headerData, headerErr) in
+        self.tcpConn.readLength(4, completionHandler: { (headerData, headerErr) in
             guard let count = headerData?.uint32, headerErr == nil else {
                 return
             }
 
-            self.tcpConn?.readLength(Int(count), completionHandler: { (pdata: Data?, error: Error?) in
+            self.tcpConn.readLength(Int(count), completionHandler: { (pdata: Data?, error: Error?) in
                 NSLog("tcpToTun, len: %d", pdata?.count ?? -1)
                 NSLog("receive:\(pdata! as NSData)")
                 guard error == nil, let packet = pdata else {
@@ -287,7 +300,7 @@ extension PacketTunnelProvider {
 
                 let protocols = [NSNumber.init(value: AF_INET)]
                 let res = self.packetFlow.writePackets([packet], withProtocols: protocols)
-
+                
                 if res == false {
                     NSLog("write tun failed")
                 }
