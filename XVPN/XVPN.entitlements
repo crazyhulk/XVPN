@@ -15,7 +15,7 @@
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.xizi.mobilevpn</string>
+		<string>group.com.f4.group</string>
 	</array>
 </dict>
 </plist>

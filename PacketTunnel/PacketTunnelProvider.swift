@@ -228,7 +228,7 @@ extension PacketTunnelProvider {
         
         settings.mtu = NSNumber.init(value: getMTU())
 
-        settings.dnsSettings = NEDNSSettings(servers: ["8.8.8.8"])
+        settings.dnsSettings = NEDNSSettings(servers: ["114.114.114.114"])
         
         self.setTunnelNetworkSettings(settings) { (error: Error?) -> Void in
             guard error == nil else {

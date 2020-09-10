@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         let manager = NEAppProxyProviderManager()
         let providerProtocol = NETunnelProviderProtocol()
         providerProtocol.providerBundleIdentifier = self.tunnelBundleId
-        providerProtocol.serverAddress = "35.236.153.210"
+        providerProtocol.serverAddress = "47.101.191.9"
         
         manager.protocolConfiguration = providerProtocol
         manager.localizedDescription = "Proxy"
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         let manager = NETunnelProviderManager()
         let providerProtocol = NETunnelProviderProtocol()
         providerProtocol.providerBundleIdentifier = self.tunnelBundleId
-        providerProtocol.serverAddress = "35.236.153.210"
+        providerProtocol.serverAddress = "47.101.191.9"
         
         
         manager.protocolConfiguration = providerProtocol
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         return manager
     }()
     
-    let tunnelBundleId = "com.xizi.mobilevpn.PacketTunnel"
+    let tunnelBundleId = "com.f4.flash.ne"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,13 +62,6 @@ class ViewController: UIViewController {
     }
 
     @IBAction func connectAction(_ sender: UIButton) {
-        let dic = [
-            "ff": "fff"
-        ]
-        var data = "hello".data(using: .utf8)!
-        try? (self.vpnManager.connection as? NETunnelProviderSession)?.sendProviderMessage(data, responseHandler: { (data) in
-            print(data)
-        })
 //        NEAppProxyProviderManager.loadAllFromPreferences { (managers, err) in
 //            guard err == nil else { return }
 //            if let m = managers?.first {
@@ -90,6 +83,13 @@ class ViewController: UIViewController {
             "port": (self.portLabel.text ?? "") as NSString,
             "method": method as NSString
         ]
+        
+//        JSONEncoder().encode(option)
+//        let data = option.data(using: .utf8)!
+//        try? (self.vpnManager.connection as? NETunnelProviderSession)?.sendProviderMessage(data, responseHandler: { (data) in
+//            print(data)
+//        })
+        
         self.vpnManager.loadFromPreferences { (error:Error?) in
             guard error == nil else { return }
             
